@@ -1,9 +1,14 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2.3cm]{geometry}
+\usepackage[left=1.8cm,right=1.8cm,top=2cm,bottom=2.3cm]{geometry}
 \usepackage{amssymb,amsmath}
-\usepackage[unicode,colorlinks]{hyperref}
-\usepackage[pdftex]{graphicx}
 \usepackage{wrapfig}
+%\usepackage{mathpazo}
+%\usepackage[math]{anttor}
+\usepackage{fouriernc}
+% \usepackage[charter]{mathdesign}
+% \usepackage[sort,compress]{cite}
+% \usepackage{url}
+
 \usepackage{subfig}
 \usepackage{calc}
 \usepackage{tikz}
@@ -16,10 +21,54 @@
 }
 
 
-\usepackage[utf8]{input enc}
-\usepackage[english, russian]{babel}
+% XeTeX packages
+\usepackage[xetex]{hyperref}
+\usepackage{xunicode}	% some extra unicode support
+\usepackage{xltxtra}	% \XeLaTeX macro
+\usepackage{pdfsync}	% for future use for inverse search in pdfs
+\defaultfontfeatures{Mapping=tex-text}
 
-\numberwithin{equation}{section}
+\tolerance=1000
+\emergencystretch=0.74cm
+
+\usepackage{polyglossia}	% instead of babel in xelatex
+\usepackage{indentfirst}	% I believe it is better for Russian
+\setdefaultlanguage{russian}	% the main language of this file
+
+\bibliographystyle{utphys}	% bibliography style
+
+% Setting default fonts
+% \setromanfont{Artemius SN}
+% \setromanfont{Charis SIL}
+\setromanfont{Charis SIL Compact}
+\setsansfont{DroidSans}
+\setmonofont{Consolas}
+
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.}	% In bibliography: change from [] to .
+\gappto\captionsrussian{\renewcommand{\refname}{Литература.}}
+\makeatother
+
+% \makeatletter
+% \let\old@makecaption=\@makecaption
+% \def\@makecaption{\small\old@makecaption}
+% \makeatother
+
+%\hyphenation{БФКЛ}
+
+\numberwithin{equation}{section} 
+
+% \definecolor{MyBlue}{rgb}{0,0,1}
+% \definecolor{MyRed}{rgb}{1,0,0}
+% \definecolor{MyGreen}{cmyk}{0.64,0,0.95,0.40}
+
+% \hypersetup{
+%   citecolor=MyGreen,
+%   urlcolor=MyRed,
+%   linkcolor=MyBlue,
+% }
+
+\graphicspath{{./pics/}}
 
 \newcommand{\nn}{\nonumber}
 \newcommand{\pt}{\partial}
@@ -32,12 +81,11 @@
 \newcommand{\const}{\mathrm{const}}
 \newcommand{\com}[1]{{\Large{\texttt{{\color{red}(#1)}}}}}
 
-\graphicspath{{./pics/}}
 \title{Электродинамика}
 \author{Игорь Шендерович\\\texttt{shender.i@gmail.com}}
+
 \begin{document}
 \maketitle
-
 \section{Векторный анализ.}
 
 Рассмотрим электрический заряд $q$, расположенный в какой-нибудь точке
@@ -100,7 +148,6 @@ $\vec{E}(x,y,z,t)$ (или $\vec{B}(x,y,z,t)$). Заметим, что поле 
 Чтобы изобразить на подобной картинке величину модуля вектора
 напряжённости, можно условиться рисовать линии гуще в тех местах, где
 абсолютная величина этого вектора больше. 
-
 \subsection{Поток.}
 \label{sec:flux}
 
@@ -764,28 +811,6 @@ $\vec{B}$ какое--нибудь векторное поле $\vec{X}$. Пол
 дивергенция которого равна нулю. Тогда его всегда можно представить в
 виде ротора другого поля $\vec{B} =\rot \vec{A}$. Эти аргументы и работают
 в электродинамике. 
-
-% В заключение отметим, что эти соотношения верны для любых полей $\phi$ и
-% $\vec{V}$. Однако, не все соотношения с двумя операторами $\vn$ равны
-% нулю. К примеру, мы могли подействовать на градиент не ротором, а
-% дивергенцией:
-
-% \begin{equation}
-%   \label{eq:def_laplacian}
-%   \vn \cdot (\vn \phi) = \vn^2 \phi = \left( \frac{\pt^2}{\pt x^2} +
-%     \frac{\pt^2}{\pt y^2} + \frac{\pt^2}{\pt z^2} \right) \phi \equiv \Delta \phi.
-% \end{equation}
-
-% Оператор $\Delta$, встретившийся тут, называется \textbf{лапласианом}. В
-% данном случае он переводит скалярное поле $\phi$ опять же в скаляр
-% (поскольку дивергенция --- скалярное поле). 
-
-% Раз оператор лапласиана скалярный, значит, он может действовать и на
-% вектор, т.е. на каждую компоненту вектора:
-
-% \begin{equation}
-%   \vn^2 \vec{A} = \vn^2 A_x \vec{i} + \vn^2 A_y \vec{j} + \vn^2 A_z \vec{k}.
-% \end{equation} 
 
 \section{Электростатика.}
 \label{sec:statics}
@@ -2816,7 +2841,7 @@ t$. По закону Фарадея в катушке возникает ЭДС
 
 \begin{equation}
   \label{eq:generator_power_1}
-  \vec{F} \ cdot \vec{v} n dl = nv \vec{F} \cdot d\vec{l}.
+  \vec{F} \cdot \vec{v} n dl = nv \vec{F} \cdot d\vec{l}.
 \end{equation}
 
 Полная мощность, выделяющаяся в цепи, равна интегралу от этой
