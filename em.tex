@@ -8,11 +8,13 @@
 \usepackage{calc}
 \usepackage{tikz}
 \usepackage{settobox}
+\usepackage{pgfplots}
 \usetikzlibrary{arrows}
 \usetikzlibrary{calc}
 \usetikzlibrary{%
     decorations.pathreplacing,%
-    decorations.pathmorphing%
+    decorations.pathmorphing,%
+    decorations.markings%
 }
 
 
@@ -32,6 +34,7 @@
 \newcommand{\const}{\mathrm{const}}
 \newcommand{\com}[1]{{\Large{\texttt{{\color{red}(#1)}}}}}
 
+\tikzset{>=latex}
 \graphicspath{{./pics/}}
 \title{Электродинамика}
 \author{Игорь Шендерович\\\texttt{shender.i@gmail.com}}
@@ -3162,6 +3165,166 @@ I = 4I_0 \cos^2 \left( \frac{\phi_2 - \phi_1}{2} \right) = 4I_0 \cos^2 \left( \f
 Обратим внимание, что этот график уже интересен: на далеком экране мы
 увидим чередующиеся светлые (интенсивностью $4I_0$) и темные (минимумы
 на графике) полосы.
+
+\subsection{Опыт Юнга с двумя щелями.}
+
+Пока мы занимались исследованием абстрактной задачи~---~сложением двух
+монохроматических волн. Где подобная ситуация может встретиться в
+физике? Впервые этим вопросом задался Юнг, когда провел свой
+знаменитый опыт с двумя щелями.
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \draw(0,3) -- ++(8,0);
+    \draw[thick] (1,6) -- ++(0,-2.75);
+    \draw[thick] (1,2.75) -- ++(0,-2.75);
+    \foreach \y in {1,1.5,2,2.5,3,3.5,4,4.5,5} {
+      \draw[thick,->] (0,\y) -- ++(0.75,0);    
+    }
+    \draw[thick] (3,6) -- (3,4.75) ++ (0,-0.5) -- (3,1.75) ++(0,-0.5) --
+    (3,0);
+    \draw[thick,->] (8,6) -- (8,0) node[right] {$x$};
+    \draw[very thick] (1,3) node[above=15,right] {$S$} -- (3,4.5) node[above left] {1} -- (8,5.5) node[right] {$P$};
+    \draw[very thick] (1,3) -- (3,1.5) node[below left] {2} -- (8,5.5);
+    \draw[blue,dashed,thick] (3,3) -- (8,5.5);
+    \draw[red,thick] (3,4.5) -- ($(3,1.5)!(3,4.5)!(8,5.5)$);
+
+    \draw[blue,thick,<->] (3,0.5) -- (8,0.5) node[midway,below] {$D$};
+    \draw (5,5.3) node {$r_1$};
+    \draw (6,3.4) node {$r_2$};
+  \end{tikzpicture}
+  \caption{Эксперимент Юнга.}
+  \label{fig:yung}
+\end{figure}
+
+Суть опыта состоит в следующем. На щель $S$ падает плоская
+монохроматическая волна (яркий пучок солнечных лучей). Полученный
+когерентный ($\alpha = 0$) пучок падает на экран с двумя щелями 1 и 2,
+которые расположены достаточно близко друг к другу (но расстояние
+между щелями должно быть велико по сравнению с шириной каждой
+щели). Ввиду общности происхождения, пучки из щелей 1 и 2 когерентны,
+поэтому мы в точности попадаем в ситуацию, описанную в предыдущем
+пункте.
+
+Оценим расстояние между светлыми полосами для реального
+эксперимента. Пусть расстояние $d$ между щелями составляет 1 мм, а $D$
+= 1 м. Пусть мы светим красным светом ($\lambda$ = 600
+нм). Зависимость $I(x)$ дается формулой
+\begin{equation}
+I(x) = 4 I_0 \cos^2 \left( \frac{\pi d x}{D \lambda} \right)
+\end{equation}
+
+Максимумы интесивности появляются тогда, когда аргумент косинуса равен
+целому кратному числа $\pi$, то есть $x=\cfrac{n D \lambda}{d}, \mbox{
+} n \in \mathbb{Z}$. Тогда расстояние между соседними максимумами (или
+ширина полосы) равно $\Delta x = \cfrac{D \lambda}{d}$. В наших
+условиях оно равно 0.6 мм. Это расстояние вполне можно померять, и,
+тем самым, это дает возможность (довольно неточно) померять длину
+волны света. Замечание в сторону: если вместо Солнца в качестве
+источника использовать лазер, то щель $S$ можно убрать. Щели можно
+получить так: достаточно стеклянные пластинки покрыть слоем серебра
+(или фольги). Далее на серебряном слое бритвой проводятся две близко
+расположенные параллельные линии, которые и используются в качестве
+щелей.
+
+\subsection{Два простых эксперимента II. Плоскопараллельная пластинка.}
+Еще один интересный эффект связан с прохождением света через тонкую стеклянную пластинку. 
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[decoration={%
+      markings,%
+      mark=at position 0.65 with {\arrow[black]{latex};}}]
+    \draw[fill=gray!10,draw=gray!10] (0,4) rectangle ++(8,-2);
+    \draw[thick] (0,4) -- ++(8,0);
+    \draw[thick] (0,2) -- ++(8,0);
+    \draw[dashed,blue] (2,5) -- ++(0,-3);
+    \draw[red,thick] (5,2) -- ($(3,2)!(5,2)!(5,0)$) node[black,below left] {$D$};
+    \draw[postaction=decorate,very thick] (0,6) -- (2,4);
+    \draw[postaction=decorate,very thick] (2,4) -- (3,2) node[below=10,left=-3] {$A$};
+    \draw[postaction=decorate,very thick] (3,2) -- (4,4) node[above] {$B$};
+    \draw[postaction=decorate,very thick] (4,4) -- (5,2) node[above
+    right] {$C$};
+    \draw[postaction=decorate,very thick] (5,2) -- (6,1);
+    \draw[postaction=decorate,very thick] (6,1) -- (6.25,-0.25);
+    \draw[postaction=decorate,very thick] (3,2) -- (5,0);
+    \draw[postaction=decorate,very thick] (5,0) -- (6.25,-0.25)
+    node[right] {$P$};
+    \draw[blue,thick,<->] (6.5,1.5) -- ++(-135:2.9cm) node[black,below]
+    {\footnotesize{линза}};
+    \draw (0.5,3) node {$n$};
+    \draw[blue] (2,3.25) arc (-90:-90+atan(0.5):0.75);
+    \draw[blue] (2.2,3.1) node {$\alpha$};
+  \end{tikzpicture}
+  \caption{Плоскопараллельная пластинка.}
+  \label{fig:plate}
+\end{figure}
+
+Рассмотрим луч, падающий на пластинку толщиной $h$ с показателем
+преломления $n$. В точку $P$ (фокальная точка зрительной трубы)
+приходят много лучей: однократно преломленный, двукратно преломленный
+и т.д. Очевидно, что если разность хода первого луча равна $\Delta x$,
+то у второго луча --- $2 \Delta x$ и т.д. Тем самым, надо только
+подсчитать $\Delta x$.
+
+Из геометрических соображений очевидно, что 
+
+\begin{equation}
+\Delta x = n (AB + BC) - AD.
+\end{equation}
+
+$AB = BC = 2h / \cos \theta_2$, $AD = 2 h \tg \theta_2 \sin \theta_1$. Отсюда 
+
+\begin{equation}
+\Delta x = 2 n h \cos \theta_2.
+\end{equation}
+
+Разность фаз тогда равна, очевидно:
+
+\begin{equation}
+\delta = k \Delta x = \frac{4 \pi n h \cos \theta_2}{\lambda_0}.
+\end{equation}
+
+Каждый раз при отражении от стенок пластинки интенсивность меняется в
+$r$ раз ($0<r<1$ --- отражательный коэффициент). Заметим, что каждый
+выходящий из пластинки луч испытывает отражение четное число раз. Так
+что интенсивности образуют геометрическую прогрессию: $E, \mbox{ }
+Er^2, \mbox{ } Er^4, \ldots$. Таким образом, надо просуммировать
+следующую прогрессию:
+\begin{equation}
+A = E \sum_{i=0}^{\infty} r^{2i} e^{i \delta} = E \frac{1}{1 - r^2 e^{i \delta}}.
+\end{equation}
+(здесь мы воспользовались суммой геометрической прогрессии, так как
+$r^2 <1$). Опять, мы должны посчитать амплитуду этого выражения, то
+есть, $AA^{*}$:
+\begin{equation}
+I =E^2 \frac{1}{1 - r^2 e^{i \delta}} \frac{1}{1 - r^2 e^{-i \delta}} = \frac{1}{1 - 2r^2 \cos \delta + r^4}.
+\end{equation}
+
+В знаменателе добавим и вычтем $2r^2$. Упрощая, получим:
+\begin{equation}
+I = \frac{E^2}{(1-r^2)^2 + 4 r^2 \sin^2 \cfrac{\delta}{2}}.
+\end{equation}
+
+Для наглядности нарисуем график этой замысловатой функции:
+
+\begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[ymin=0,ymax=12,grid=major,height=8cm,width=8cm,xlabel={$\delta$},ylabel={$I(\delta)$},axis
+      equal]
+      \addplot[samples=100,domain=0:12]
+      gnuplot[id=sin]{6/(0.75*0.75+sin(x/2)*sin(x/2))};
+    \end{axis}
+  \end{tikzpicture}
+\end{center}
+
+Условия максимума интенсивности можно записать в виде $2nh \cos
+\theta_2 = m \lambda_0$, $m \in \mathbb{Z}$. Видно, что линиям равной
+интенсивности соответствует одно и то же значение $\theta_1$, так что
+интерференционные полосы в фокальной плоскости линзы --- просто
+концентрические кольца с центром на оси линзы.
+
 
 
 \end{document}
