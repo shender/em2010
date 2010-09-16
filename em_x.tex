@@ -1,6 +1,8 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[left=1.8cm,right=1.8cm,top=2cm,bottom=2.3cm]{geometry}
+%\usepackage[margin=2cm]{geometry}
 \usepackage{amssymb,amsmath}
+\usepackage{fancyhdr}
 \usepackage{wrapfig}
 %\usepackage{mathpazo}
 %\usepackage[math]{anttor}
@@ -47,7 +49,8 @@
 % \setromanfont{Artemius SN}
 % \setromanfont{Charis SIL}
 \setromanfont{Charis SIL Compact}
-\setsansfont{DroidSans}
+\setsansfont{Nokia Sans S60} 
+%\setsansfont{DroidSans}
 \setmonofont{Consolas}
 
 \makeatletter
@@ -74,6 +77,12 @@
 %   linkcolor=MyBlue,
 % }
 
+\hypersetup{colorlinks,%
+  citecolor=blue,
+  urlcolor=blue,
+  linkcolor=red
+}
+
 \numberwithin{equation}{section}
 
 \newcommand{\nn}{\nonumber}
@@ -89,8 +98,24 @@
 
 \tikzset{>=latex}
 \graphicspath{{./pics/}}
+
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\newcommand{\version}{\today}
+\pagestyle{fancy}
+\rhead{\small\sffamily \emph{Электродинамика}}
+\lhead{\small\sffamily \emph{Игорь Шендерович}}
+\cfoot{-- \sffamily\thepage \ -- }
+\rfoot{\tiny \sffamily\version}
+%\lfoot{\tiny \sffamily
+%\href{mailto:shender.i@gmail.com}{shender.i@gmail.com}}
+\lfoot{\tiny \textsf{Летний физический лагерь, июль--август 2010}}
+
+
+\tolerance=1000
+\emergencystretch=0.74cm
+
 \title{Электродинамика}
-\author{Игорь Шендерович\\\texttt{shender.i@gmail.com}}
+\author{Игорь Шендерович\\\texttt{\href{mailto:shender.i@gmail.com}{shender.i@gmail.com}}}
 \begin{document}
 \maketitle
 
@@ -138,7 +163,7 @@ $\vec{E}(x,y,z,t)$ (или $\vec{B}(x,y,z,t)$). Заметим, что поле 
 эту связь в наиболее общем виде. 
 
 \begin{wrapfigure}{r}{40mm}
-  \vspace{-1cm}
+  \vspace{-1.5cm}
   \begin{center}
   \includegraphics[width=4cm]{lines.pdf}  
   \end{center}
@@ -461,7 +486,7 @@ $\phi$ в точках 1 и 2, и больше не от чего. Очевид�
 уйдём обратно по синему? Мы опишем замкнутый контур. 
 
 \begin{wrapfigure}{r}{40mm}
-  \vspace{-1.5cm}
+  \vspace{-0.75cm}
   \begin{center}
     \includegraphics[width=4cm,height=4cm]{path_indep.pdf}
   \end{center}
@@ -2782,12 +2807,24 @@ $-E_2(r) h$ (так как по трём сторонам из четырёх о
 
 Если нарисовать график функции $J_0 (x)$, то мы увидим следующее: 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=10cm]{bessel.pdf}
+  \begin{tikzpicture}
+    \begin{axis}[xmin=-10,xmax=10,grid=major,height=8cm,width=12cm,xlabel={$x$},ylabel={$J_0(x)$}]
+      \addplot[samples=1000,domain=-10:10,red,thick]
+      gnuplot[id=bes]{besj0(x)};
+    \end{axis}
+  \end{tikzpicture}
   \caption{Функция Бесселя.}
   \label{fig:bessel}
 \end{figure}
+
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=10cm]{bessel.pdf}
+%   \caption{Функция Бесселя.}
+%   \label{fig:bessel}
+% \end{figure}
 
 Заметим, что когда $x \approx 2.4$ функция Бесселя обращается в
 нуль. То есть, в точках $\omega r \approx 2.4 c$ поле между обкладками
@@ -2872,7 +2909,7 @@ t$. По закону Фарадея в катушке возникает ЭДС
 
 \begin{equation}
   \label{eq:generator_power_1}
-  \vec{F} \ cdot \vec{v} n dl = nv \vec{F} \cdot d\vec{l}.
+  \vec{F} \cdot \vec{v} n dl = nv \vec{F} \cdot d\vec{l}.
 \end{equation}
 
 Полная мощность, выделяющаяся в цепи, равна интегралу от этой
@@ -3130,11 +3167,20 @@ R_3, R_4, R_5$. Определим его результирующее сопр�
 \section{Оптика.}
 \label{sec:optics}
 
+Мы уже увидели, что уравнения Максвелла описывают электромагнитные
+явления, а также соответствующие этим явлениям волновые
+процессы. Возникает естественный вопрос: каково самое наглядное
+выражение этих процессов, встречающихся в природе? Ответ на этот
+вопрос такой: это \textbf{волновая оптика} --- наука о распространении света
+как электромагнитной волны (в отличие от оптики геометрической). 
+
 \subsection{Интерференция.}
 \label{sec:interference}
 
-В качестве стартовой рассмотрим такую задачу: пусть имеется два точечных источника, излучающие гармоническую волну с одинаковой частотой $\omega$. Каково будет распределение поля, создаваемое этими источниками?
-Волны записываются в виде комплексных экспонент:
+В качестве стартовой рассмотрим такую задачу: пусть имеется два
+точечных источника, излучающие гармоническую волну с одинаковой
+частотой $\omega$. Каково будет распределение поля, создаваемое этими
+источниками?  Волны записываются в виде комплексных экспонент:
 \begin{equation}
 W_1=A_1 e^{i(\omega t + \phi_1)}, \quad W_2 = A_2 e^{i(\omega t + \phi_2)}.
 \end{equation}
@@ -3150,7 +3196,7 @@ A_R^2 = R R^{*} = (A_1 e^{i \phi_1} + A_2 e^{i \phi_2} ) & (A_1 e^{-i \phi_1} + 
 \end{split}
 \end{equation}
 
-Назовем \textit{интенсивностью} $I$ квадрат амплитуды электромагнитного поля. Таким образом, мы можем записать наш результат в виде:
+Назовем \textbf{интенсивностью} $I$ квадрат амплитуды электромагнитного поля. Таким образом, мы можем записать наш результат в виде:
 \begin{equation} \label{eq:sum_waves}
 I = I_1 + I_2 + 2\sqrt{I_1 I_2} \cos (\phi_2 - \phi_1).
 \end{equation}
@@ -3183,7 +3229,6 @@ I = I_1 + I_2 + 2\sqrt{I_1 I_2} \cos (\phi_2 - \phi_1).
   \label{fig:two_paths}
 \end{figure}
 
-% \pic{\psfrag{A2}{$A e^{i (\omega t + \alpha)}$} \psfrag{A1}{$Ae^{i \omega t}$} \psfrag{theta}{$\theta$} \psfrag{dsint}{$d\sin \theta$} \psfrag{d}{$d$} \psfrag{point}{к точке $P$}}{1}{fig/7}{r}{-5mm}{3mm}
 Тут есть сумма $I_1 + I_2$ и дополнительный член, отвечающий за
 интерференцию. С ним-то и связано все самое интересное. Применим эту
 формулу в следующей ситуации: источники расположены на расстоянии $d$
@@ -3193,18 +3238,18 @@ I = I_1 + I_2 + 2\sqrt{I_1 I_2} \cos (\phi_2 - \phi_1).
 из-за разности хода равна
 
 \begin{equation}
-\Delta \phi = \frac{2\pi d \sin \theta}{\lambda}
+\Delta \phi = \frac{2\pi d \sin \theta}{\lambda}.
 \end{equation}
 Полная разность фаз в точке $P$ равна:
 
 \begin{equation}
-\phi_2 - \phi_1 = \alpha + \frac{2\pi d \sin \theta}{\lambda}
+\phi_2 - \phi_1 = \alpha + \frac{2\pi d \sin \theta}{\lambda}.
 \end{equation}
 
 Это выражение (а также равенство $A_1 = A_2 \equiv A_0$) можно подставить в (\ref{eq:sum_waves}) --- получится финальная формула. Зависимость интенсивности от угла $\theta$ дается формулой:
 
 \begin{equation}
-I = 4I_0 \cos^2 \left( \frac{\phi_2 - \phi_1}{2} \right) = 4I_0 \cos^2 \left( \frac{\alpha}{2} + \frac{\pi d \sin \theta}{\lambda} \right) 
+I = 4I_0 \cos^2 \left( \frac{\phi_2 - \phi_1}{2} \right) = 4I_0 \cos^2 \left( \frac{\alpha}{2} + \frac{\pi d \sin \theta}{\lambda} \right).
 \end{equation}
 В практически важных случаях экран находится достаточно далеко, так что все углы наблюдения малы ($\theta \ll 1$). В этом случае можно заменить $\sin \theta$ на $\theta$. Если $l$ --- расстояние до экрана, то $\theta \approx \dfrac{x}{l}$, где $x$ --- координата вдоль экрана.
 
@@ -3212,7 +3257,7 @@ I = 4I_0 \cos^2 \left( \frac{\phi_2 - \phi_1}{2} \right) = 4I_0 \cos^2 \left( \f
 
 \begin{center}
   \begin{tikzpicture}
-    \begin{axis}[ymin=0,ymax=4.5,grid=major,height=8cm,width=8cm,xlabel={$x$},ylabel={$I(x)$}]
+    \begin{axis}[xmin=-6.28,xmax=6.28,ymin=0,ymax=4.5,grid=major,height=8cm,width=12cm,xlabel={$x$},ylabel={$I(x)$}]
       \addplot[samples=1000,domain=-2*3.14:2*3.14,red,thick]
       gnuplot[id=cos]{4*cos(20*3.14*x/50)*cos(20*3.14*x/50)};
     \end{axis}
@@ -3269,7 +3314,7 @@ I = 4I_0 \cos^2 \left( \frac{\phi_2 - \phi_1}{2} \right) = 4I_0 \cos^2 \left( \f
 = 1 м. Пусть мы светим красным светом ($\lambda$ = 600
 нм). Зависимость $I(x)$ дается формулой
 \begin{equation}
-I(x) = 4 I_0 \cos^2 \left( \frac{\pi d x}{D \lambda} \right)
+I(x) = 4 I_0 \cos^2 \left( \frac{\pi d x}{D \lambda} \right).
 \end{equation}
 
 Максимумы интесивности появляются тогда, когда аргумент косинуса равен
@@ -3314,7 +3359,7 @@ I(x) = 4 I_0 \cos^2 \left( \frac{\pi d x}{D \lambda} \right)
     \draw[blue] (2,3.25) arc (-90:-90+atan(0.5):0.75);
     \draw[blue] (2.2,3.1) node {$\alpha$};
   \end{tikzpicture}
-  \caption{Плоскопараллельная пластинка.}
+  \caption{Прохождение луча через плоскопараллельную пластинку.}
   \label{fig:plate}
 \end{figure}
 
@@ -3368,9 +3413,8 @@ I = \frac{E^2}{(1-r^2)^2 + 4 r^2 \sin^2 \cfrac{\delta}{2}}.
 
 \begin{center}
   \begin{tikzpicture}
-    \begin{axis}[ymin=0,ymax=12,grid=major,height=8cm,width=8cm,xlabel={$\delta$},ylabel={$I(\delta)$},axis
-      equal]
-      \addplot[samples=100,domain=0:12,thick,red]
+    \begin{axis}[ymin=0,ymax=12,grid=major,height=8cm,width=12cm,xlabel={$\delta$},ylabel={$I(\delta)$},xmin=0,xmax=16]
+      \addplot[samples=100,domain=0:16,thick,red]
       gnuplot[id=sin]{6/(0.75*0.75+sin(x/2)*sin(x/2))};
     \end{axis}
   \end{tikzpicture}
@@ -3476,7 +3520,7 @@ $dS$. Во-вторых, оно пропорционально прокции $d
 \begin{wrapfigure}{l}{60mm}
   \begin{center}
     \begin{tikzpicture}
-      \draw[thick] (2,5) -- (2,4) (2,2) -- (2,1);
+      \draw[very thick] (2,5) -- (2,4) (2,2) -- (2,1);
       \draw (0,3) node[below] {$O$} -- (5,3);
       \draw[thick,->] (0,3) -- ++(20:4cm) node[above] {$\vec{k}$};
       \draw[thick,dashed] (2,2) arc (-atan(0.5):atan(0.5):2.23cm);
@@ -3484,22 +3528,16 @@ $dS$. Во-вторых, оно пропорционально прокции $d
       \draw (a) -- (5,3) node[below] {$P$};
       \draw[blue] (1,3) arc (0:20:1cm) node[below=3,right=2]
       {\footnotesize{$\theta$}};
-      \draw[blue] (1.15,2.7) node {\footnotesize{$r_0$}};
-      \draw[blue] (3.5,2.7) node {\footnotesize{$r$}};
-      \draw[blue] (2.45,2.7) node {\footnotesize{$C$}};
-      \draw[blue] (3.75,3.56) node {\footnotesize{$R$}};
+      \draw (1.15,2.7) node {\footnotesize{$r_0$}};
+      \draw (3.5,2.7) node {\footnotesize{$r$}};
+      \draw (2.45,2.7) node {\footnotesize{$C$}};
+      \draw (3.75,3.56) node {\footnotesize{$R$}};
       \draw[blue] ($(a)!0.5cm!(5,3)$) arc (-20:17:0.5cm) node[below=4,right=-1] {\footnotesize{$\alpha$}};
     \end{tikzpicture}
   \end{center}
   \label{fig:diffraction_round}
 \end{wrapfigure}
 
-
-% \begin{figure}[h]
-%   \centering
-%   \caption{Дифракция Френеля на круглом отверстии.}
-%   \label{fig:diffraction_round}
-% \end{figure}
 
 Для простоты считаем, что источник $O$ и точка $P$ лежат на прямой,
 проходящей через центр отверстия. Закроем отверстие сферой $S$ радиуса
@@ -3512,25 +3550,25 @@ $r_0$ с центром в источнике. Напряженность пол
 этого кольца на нормаль: $dS = dS_n = 2\pi r_0^2 \sin \theta d
 \theta$. Из теоремы косинусов получаем:
 \begin{equation}
-R^2 = r^2 + (r_0 +r)^2 - 2r_0 (r_0 + r) \cos \theta
+R^2 = r^2 + (r_0 +r)^2 - 2r_0 (r_0 + r) \cos \theta.
 \end{equation}
 
 Отсюда, дифференцируя это уравнение, получим:
 
 \begin{equation}
-R dR = r_0 (r_0 + r) \sin \theta d \theta
+R dR = r_0 (r_0 + r) \sin \theta d \theta.
 \end{equation}
 
 Подставляя это в выражение для площади, получим: 
 
 \begin{equation}
-dS_n = 2 \pi \dfrac{r_0 R}{r_0 + r} dR
+dS_n = 2 \pi \dfrac{r_0 R}{r_0 + r} dR.
 \end{equation}
 
 Используя это соотношение, можно выписать ответ:
 
 \begin{equation} \label{eq:diff_circle}
-E_P = 2 \pi \frac{E_0 e^{i k r_0}}{r_0 + r} \int\limits_{r}^{R_{max}} a(R) e^{i k R} dR
+E_P = 2 \pi \frac{E_0 e^{i k r_0}}{r_0 + r} \int\limits_{r}^{R_{max}} a(R) e^{i k R} dR.
 \end{equation}
 (Тут мы от функции $a(\alpha)$ перешли к $a(R)$).
 
@@ -3544,15 +3582,15 @@ E_P = 2 \pi \frac{E_0 e^{i k r_0}}{r_0 + r} \int\limits_{r}^{R_{max}} a(R) e^{i 
 Френеля. Каждое слагаемое имеет вид:
 
 \begin{equation}
-a_n \int\limits_{r + (n-1) \lambda /2}^{r + n \lambda /2} e^{i k R}\, dR = a_n \frac{1}{ik} e^{ikr} \left(e^{i \pi n} - e^{i \pi (n-1)} \right) = a_n \frac{e^{ikr}}{ik} e^{i \pi n} \left[1 - e^{-i \pi} \right] = (-1)^n a_n \frac{2e^{ikr}}{ik},
+  a_n \int\limits_{r + (n-1) \lambda /2}^{r + n \lambda /2} e^{i k R}\, dR = a_n \frac{1}{ik} e^{ikr} \left(e^{i \pi n} - e^{i \pi (n-1)} \right) = a_n \frac{e^{ikr}}{ik} e^{i \pi n} \left[1 - e^{-i \pi} \right] = (-1)^n a_n \frac{2e^{ikr}}{ik},
 \end{equation}
-где $a_n$~---~значение функции $a(R)$ в n-ой зоне Френеля. Таким
+где $a_n$~---~значение функции $a(R)$ в $n$-ой зоне Френеля. Таким
 образом, вычисление напряженности в точке $P$ сводится к суммированию
 следующего ряда:
 
 \begin{equation} 
 \label{eq:diff_series}
-E_P = \frac{4 \pi i}{k} E_0 \frac{e^{ik (r_0 +r)}}{r_0 + r} (a_1 - a_2 + a_3 - a_4 + \ldots)
+E_P = \frac{4 \pi i}{k} E_0 \frac{e^{ik (r_0 +r)}}{r_0 + r} (a_1 - a_2 + a_3 - a_4 + \ldots).
 \end{equation}
 
 То, что ряд знакопеременный, указывает, что колебания, вносимые
@@ -3628,14 +3666,14 @@ $A_1/2$. На языке ряда это значит, что сумма все�
 его первого члена:
 
 \begin{equation}
-E_P = \frac{2\pi i}{k} E_0 \frac{e^{i k (r_0 + r)}}{r_0 + r} a_1
+E_P = \frac{2\pi i}{k} E_0 \frac{e^{i k (r_0 + r)}}{r_0 + r} a_1.
 \end{equation}
 
 С другой стороны, свободно распространяющаяся сферическая волна на
 расстоянии $r_0 + r$ от источника имеет напряженность
 
 \begin{equation}
-E_P = E_0 \frac{e^{i k (r_0 + r)}}{r_0 + r}
+E_P = E_0 \frac{e^{i k (r_0 + r)}}{r_0 + r}.
 \end{equation}
 
 Сравнивая эти два выражения, получаем, что $a_1 =
@@ -3644,7 +3682,7 @@ E_P = E_0 \frac{e^{i k (r_0 + r)}}{r_0 + r}
 Френеля:
 
 \begin{equation}
-I = |E_P|^2 =\left| \frac{16 \pi^2}{k^2} \frac{E_0^2}{(r_0 + r)^2} a_1^2 \right|= 4 \frac{E_0^2}{(r_0+r)^2} = 4I_0
+I = |E_P|^2 =\left| \frac{16 \pi^2}{k^2} \frac{E_0^2}{(r_0 + r)^2} a_1^2 \right|= 4 \frac{E_0^2}{(r_0+r)^2} = 4I_0.
 \end{equation}
 
 Видно, что если бы экрана вообще не было, интенсивность в точке $P$ была
